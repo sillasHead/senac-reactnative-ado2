@@ -1,13 +1,8 @@
 import axios from 'axios'
-import Constants from 'expo-constants'
 import React, { useEffect, useState } from "react"
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View
-} from "react-native"
+import { FlatList, Text, View } from "react-native"
 import Pessoa from './Pessoa'
+import styles from './styles'
 
 export default function App() {
   const [jsonData, setJsonData] = useState([])
@@ -15,8 +10,8 @@ export default function App() {
   useEffect(() => {
     axios.get("https://reqres.in/api/users?page=1")
       .then(res => {
-        console.log('Sucesso! Dados: ', res.data)
-        setJsonData(res.data)
+        console.log('Sucesso! Dados: ', res)
+        setJsonData(res.data.data)
       })
       .catch(err => {
         throw new Error('Erro ao consumir a API. Erro: ', err)
@@ -42,60 +37,9 @@ export default function App() {
         data={jsonData}
         renderItem={meuItem}
         keyExtractor={item => item.id.toString()}
-        ListHeaderComponent={<Text style={styles.cabecalho}>Header da Flast List</Text>}
+        ListHeaderComponent={<Text style={styles.cabecalho}>Melhor App</Text>}
       />
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#00BFFF',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 12,
-    padding: 12,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: 'pink'
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
-    alignSelf: 'center'
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "#B0C4DE",
-    borderRadius: 10,
-    padding: 50,
-    alignItems: "center",
-    shadowColor: "#87CEEB",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cabecalho: {
-    margin: 12,
-    padding: 12,
-    fontSize: 36,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: 'black',
-    color: 'white'
-  }
-})
